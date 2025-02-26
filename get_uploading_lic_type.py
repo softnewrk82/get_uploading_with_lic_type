@@ -1738,22 +1738,7 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                     # __________________________________________
     
                
-                    
-                    
-                    if type(k["ИнфПолФХЖ2"]) == dict:
-                        if k["ИнфПолФХЖ2"]["@Идентиф"] == 'ХарактНоменклатуры':
-                            var_license_type = k["ИнфПолФХЖ2"]["@Значен"]
-                        else:
-                            var_license_type = ''
-                    elif type(k["ИнфПолФХЖ2"]) == list:
-                        for i_lic_type in k["ИнфПолФХЖ2"]:
-                            if i_lic_type["@Идентиф"] == 'ХарактНоменклатуры':
-                                var_license_type = i_lic_type["@Значен"]
-    
-                            else:
-                                var_license_type = ''
-                    # __________________________________________
-                            
+                                                
                     
                     try:
                         var_inside_doc_item_article =  k["ДопСведТов"]["@АртикулТов"]
