@@ -964,18 +964,20 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                             var_date_from = ''
                         
                     #_________________________________         
-                    
+
                     var_license_type = ''
-                    for var_i_license_type in xml_a["Файл"]["Документ"]["ТаблСчФакт"]["СведТов"]["ИнфПолФХЖ2"]:
-                        # print(var_i_license_type )
-                        try:
-                            if var_i_license_type["@Идентиф"] == 'ХарактНоменклатуры':
-                                var_license_type = var_i_license_type["@Значен"]
-                            else:
-                                pass
-                        except:
-                            var_license_type = ''                        
-                        
+                    try:
+                        for var_i_license_type in xml_a["Файл"]["Документ"]["ТаблСчФакт"]["СведТов"]["ИнфПолФХЖ2"]:
+                            # print(var_i_license_type )
+                            try:
+                                if var_i_license_type["@Идентиф"] == 'ХарактНоменклатуры':
+                                    var_license_type = var_i_license_type["@Значен"]
+                                else:
+                                    pass
+                            except:
+                                var_license_type = ''                        
+                    except:
+                        var_license_type = ''
                     # _______________________________________    
                                 
                                    
@@ -1700,7 +1702,26 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                 except:
                     var_date_from = ''
                 
-                #_________________________________         
+                #_________________________________      
+
+
+                try:
+                    if type(xml_a["Файл"]["Документ"]["ТаблСчФакт"]["СведТов"]["ИнфПолФХЖ2"]) == dict:
+                        if xml_a["Файл"]["Документ"]["ТаблСчФакт"]["СведТов"]["ИнфПолФХЖ2"]["@Идентиф"] == 'ХарактНоменклатуры':
+                            var_license_type = xml_a["Файл"]["Документ"]["ТаблСчФакт"]["СведТов"]["ИнфПолФХЖ2"]["@Значен"]
+                        else:
+                            var_license_type = ''
+                    elif type(xml_a["Файл"]["Документ"]["ТаблСчФакт"]["СведТов"]["ИнфПолФХЖ2"]) == list:
+                        for i_lic_type in xml_a["Файл"]["Документ"]["ТаблСчФакт"]["СведТов"]["ИнфПолФХЖ2"]:
+                            if i_lic_type["@Идентиф"] == 'ХарактНоменклатуры':
+                                var_license_type = i_lic_type["@Значен"]
+        
+                            else:
+                                var_license_type = ''
+                except:
+                    var_license_type = ''
+
+                
                                                             
     
                         
