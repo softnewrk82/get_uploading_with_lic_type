@@ -259,6 +259,7 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                         var_inside_doc_item_note,
                         var_inside_doc_item_code,
                         var_inside_doc_item_article,
+                        var_inside_doc_item_sn,
                         var_inside_doc_item_name,
                         var_inside_doc_item_quantity,
                         var_inside_doc_item_unit,
@@ -277,6 +278,7 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
         
         inside_doc_item_code.append(var_inside_doc_item_code)
         inside_doc_item_article.append(var_inside_doc_item_article)
+        inside_doc_item_sn.append(var_inside_doc_item_sn)
         inside_doc_item_name.append(var_inside_doc_item_name)
         
         inside_doc_item_quantity.append(var_inside_doc_item_quantity)
@@ -432,6 +434,7 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                         elif x["ИнфПолеОписРабот"][i_info]["@Идентиф"] == "Артикул":
                            var_inside_doc_item_article = x["ИнфПолеОписРабот"][i_info]["@Значен"] 
                         
+                var_inside_doc_item_sn = ''
     
                 try:
                     var_inside_doc_item_full_doc_price = xml_a["Файл"]["Документ"]["СвДокПРУ"]["СодФХЖ1"]["ОписРабот"]["Работа"]["@СтоимУчНДС"]                    
@@ -523,6 +526,7 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                     var_inside_doc_item_note,
                     var_inside_doc_item_code,
                     var_inside_doc_item_article,
+                    var_inside_doc_item_sn,
                     var_inside_doc_item_name,
                     var_inside_doc_item_quantity,
                     var_inside_doc_item_unit,
@@ -645,7 +649,8 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                              elif k["ИнфПолеОписРабот"][i_info]["@Идентиф"] == "Артикул":
                                 var_inside_doc_item_article = k["ИнфПолеОписРабот"][i_info]["@Значен"]                          
         
-        
+                    var_inside_doc_item_sn = ''
+                    
                     try:
                         var_inside_doc_item_full_doc_price = sum_inside_doc                 
                     except: 
@@ -687,6 +692,7 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                         var_inside_doc_item_note,
                         var_inside_doc_item_code,
                         var_inside_doc_item_article,
+                        var_inside_doc_item_sn,
                         var_inside_doc_item_name,
                         var_inside_doc_item_quantity,
                         var_inside_doc_item_unit,
@@ -802,6 +808,20 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                     var_inside_doc_item_article = xml_a["Файл"]["Документ"]["СвДокПТПрКроме"]["СодФХЖ2"]["СвТов"]["@АртикулТов"]
                 except:
                     var_inside_doc_item_article = np.nan
+                 
+                var_inside_doc_item_sn = ''
+                
+                try:    
+                    for l in range(len(xml_a["Файл"]["Документ"]["СвДокПТПрКроме"]["СодФХЖ2"]["СвТов"]["ИнфПолФХЖ2"])): 
+                        if xml_a["Файл"]["Документ"]["СвДокПТПрКроме"]["СодФХЖ2"]["СвТов"]["ИнфПолФХЖ2"][l]["@Идентиф"] == 'SerialNumber':
+                            var_inside_doc_item_sn = xml_a["Файл"]["Документ"]["СвДокПТПрКроме"]["СодФХЖ2"]["СвТов"]["ИнфПолФХЖ2"][l]["@Значен"]
+                        else:
+                            pass
+                except:
+                    var_inside_doc_item_sn = ''
+                
+                    
+                    
                 try:
                     var_inside_doc_item_name = xml_a["Файл"]["Документ"]["СвДокПТПрКроме"]["СодФХЖ2"]["СвТов"]["@НаимТов"]
                 except:
@@ -886,6 +906,7 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                     var_inside_doc_item_note,
                     var_inside_doc_item_code,
                     var_inside_doc_item_article,
+                    var_inside_doc_item_sn,
                     var_inside_doc_item_name,
                     var_inside_doc_item_quantity,
                     var_inside_doc_item_unit,
@@ -1001,6 +1022,18 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                             var_inside_doc_item_article = k["@АртикулТов"]
                         except:
                             var_inside_doc_item_article = np.nan
+                        
+                        var_inside_doc_item_sn = ''    
+                            
+                        try:
+                            for l in range(len(k["ИнфПолФХЖ2"])):
+                                if k["ИнфПолФХЖ2"][l]["@Идентиф"] == 'SerialNumber':
+                                    var_inside_doc_item_sn = k["ИнфПолФХЖ2"][l]["@Значен"]
+                                else: 
+                                    pass
+                        except:
+                            var_inside_doc_item_sn = ''    
+                            
                         try:
                             var_inside_doc_item_name = k["@НаимТов"]
                         except:
@@ -1033,6 +1066,7 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                             var_inside_doc_item_note,
                             var_inside_doc_item_code,
                             var_inside_doc_item_article,
+                            var_inside_doc_item_sn,
                             var_inside_doc_item_name,
                             var_inside_doc_item_quantity,
                             var_inside_doc_item_unit,
@@ -1175,6 +1209,8 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                             var_inside_doc_item_article = re.findall(f"услуга|услуги", k["@ИнфПолСтр"])[0]
                         except:
                             var_inside_doc_item_article = np.nan
+                
+                var_inside_doc_item_sn = ''
                     
                 var_inside_doc_item_name = xml_a["Файл"]["Документ"]["Таблица"]["СведТабл"]["@НаимПП"]
                 var_inside_doc_item_quantity = xml_a["Файл"]["Документ"]["Таблица"]["СведТабл"]["@КолПП"]
@@ -1246,6 +1282,7 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                     var_inside_doc_item_note,
                     var_inside_doc_item_code,
                     var_inside_doc_item_article,
+                    var_inside_doc_item_sn,
                     var_inside_doc_item_name,
                     var_inside_doc_item_quantity,
                     var_inside_doc_item_unit,
@@ -1363,7 +1400,7 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                         except:
                             var_inside_doc_item_article = np.nan
         
-        
+                    var_inside_doc_item_sn = ''
                         
                     var_inside_doc_item_name = k["@НаимПП"]
                     try:
@@ -1386,6 +1423,7 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                         var_inside_doc_item_note,
                         var_inside_doc_item_code,
                         var_inside_doc_item_article,
+                        var_inside_doc_item_sn,
                         var_inside_doc_item_name,
                         var_inside_doc_item_quantity,
                         var_inside_doc_item_unit,
@@ -1539,6 +1577,22 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                 except: 
                     var_inside_doc_item_article = np.nan
                     
+                var_inside_doc_item_sn = ''
+                
+                try:
+                    for l in range(len(xml_a["Файл"]["Документ"]["ТаблСчФакт"]["СведТов"]["ИнфПолФХЖ2"])): 
+                        if xml_a["Файл"]["Документ"]["ТаблСчФакт"]["СведТов"]["ИнфПолФХЖ2"][l]["@Идентиф"] == 'SerialNumber':
+                            var_inside_doc_item_sn = xml_a["Файл"]["Документ"]["ТаблСчФакт"]["СведТов"]["ИнфПолФХЖ2"][l]["@Значен"]
+                        else:
+                            pass
+                except:
+                    var_inside_doc_item_sn = ''                
+            
+            
+            
+            
+            
+                    
                 var_inside_doc_item_name = xml_a["Файл"]["Документ"]["ТаблСчФакт"]["СведТов"]["@НаимТов"]
                 try:
                     var_inside_doc_item_quantity = xml_a["Файл"]["Документ"]["ТаблСчФакт"]["СведТов"]["@КолТов"]
@@ -1623,6 +1677,7 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                     var_inside_doc_item_note,
                     var_inside_doc_item_code,
                     var_inside_doc_item_article,
+                    var_inside_doc_item_sn,
                     var_inside_doc_item_name,
                     var_inside_doc_item_quantity,
                     var_inside_doc_item_unit,
@@ -1738,12 +1793,25 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                     # __________________________________________
     
                
-                                                
+
                     
                     try:
                         var_inside_doc_item_article =  k["ДопСведТов"]["@АртикулТов"]
                     except:
                         var_inside_doc_item_article =  np.nan
+                        
+                        
+                    var_inside_doc_item_sn = ''     
+                        
+                    try:
+                        for l in range(len(k["ИнфПолФХЖ2"])):
+                            if k["ИнфПолФХЖ2"][l]["@Идентиф"] == 'SerialNumber':
+                                var_inside_doc_item_sn = k["ИнфПолФХЖ2"][l]["@Значен"]
+                            else: 
+                                pass
+                    except:
+                        var_inside_doc_item_sn = ''        
+                
                         
                     var_inside_doc_item_name = k["@НаимТов"]
                     
@@ -1773,6 +1841,7 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                         var_inside_doc_item_note,
                         var_inside_doc_item_code,
                         var_inside_doc_item_article,
+                        var_inside_doc_item_sn,
                         var_inside_doc_item_name,
                         var_inside_doc_item_quantity,
                         var_inside_doc_item_unit,
@@ -1967,6 +2036,20 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                     var_inside_doc_item_article = xml_a["Файл"]["Документ"]["ТаблСчФакт"]["СведТов"]["ДопСведТов"]["@АртикулТов"]
                 except:
                     var_inside_doc_item_article = np.nan
+                    
+                var_inside_doc_item_sn = ''
+                 
+                try:
+                    for l in range(len(xml_a["Файл"]["Документ"]["ТаблСчФакт"]["СведТов"]["ИнфПолФХЖ2"])): 
+                        if xml_a["Файл"]["Документ"]["ТаблСчФакт"]["СведТов"]["ИнфПолФХЖ2"][l]["@Идентиф"] == 'SerialNumber':
+                            var_inside_doc_item_sn = xml_a["Файл"]["Документ"]["ТаблСчФакт"]["СведТов"]["ИнфПолФХЖ2"][l]["@Значен"]
+                        else:
+                            pass
+                except:
+                    var_inside_doc_item_sn = ''     
+                    
+                    
+                    
                                         
                 var_inside_doc_item_name = xml_a["Файл"]["Документ"]["ТаблСчФакт"]["СведТов"]["@НаимТов"]
                 
@@ -1998,6 +2081,7 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                     var_inside_doc_item_note,
                     var_inside_doc_item_code,
                     var_inside_doc_item_article,
+                    var_inside_doc_item_sn,
                     var_inside_doc_item_name,
                     var_inside_doc_item_quantity,
                     var_inside_doc_item_unit,
@@ -2109,6 +2193,18 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                         var_inside_doc_item_article =  k["ДопСведТов"]["@АртикулТов"]
                     except:
                         var_inside_doc_item_article =  np.nan
+                        
+                        
+                    var_inside_doc_item_sn = ''
+                    
+                    try:
+                        for l in range(len(k["ИнфПолФХЖ2"])):
+                            if k["ИнфПолФХЖ2"][l]["@Идентиф"] == 'SerialNumber':
+                                var_inside_doc_item_sn = k["ИнфПолФХЖ2"][l]["@Значен"]
+                            else: 
+                                pass
+                    except:
+                        var_inside_doc_item_sn = ''     
             
                         
                     var_inside_doc_item_name = k["@НаимТов"]
@@ -2140,6 +2236,7 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
                         var_inside_doc_item_note,
                         var_inside_doc_item_code,
                         var_inside_doc_item_article,
+                        var_inside_doc_item_sn,
                         var_inside_doc_item_name,
                         var_inside_doc_item_quantity,
                         var_inside_doc_item_unit,
@@ -2238,6 +2335,7 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
 
     inside_doc_item_code = []
     inside_doc_item_article = []
+    inside_doc_item_sn = []
     inside_doc_item_name = []
 
     inside_doc_item_quantity = []
@@ -2744,6 +2842,8 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
     inside_date_from,
     
     inside_license_type,
+    
+    inside_doc_item_sn,
     ]
 
     lst_append_name = [
@@ -2782,7 +2882,10 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
         "inside_agent",
         "inside_date_from",
         
-        "inside_license_type"
+        "inside_license_type",
+        
+        "inside_doc_item_sn",
+
     ]    
             
     lst_append_exc_name = [
@@ -2841,6 +2944,7 @@ def sbis_real_processing_0(date_from, date_to, name_unloading, name_unloading_ex
     
     inside_license_type,   
     
+    inside_doc_item_sn,
     )))
         
     def doc_append_exc():
